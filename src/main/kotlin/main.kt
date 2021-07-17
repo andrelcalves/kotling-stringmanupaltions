@@ -1,11 +1,12 @@
 fun main(args: Array<String>) {
     //return the count of letters that needs to be removed to make an anagram
-    var countAnagram = makeAnagram("abcdef", "cadxyfw")
+    println(makeAnagram("abcdef", "cadxyfw"))
     //return the count of letters that needs to be removed that there ane not matching adjaceting
-    var countAlterning = alernatingCharacters("AABAAB")
+    println(alernatingCharacters("AABAAB"))
     //
-    var stringRemoved = superReducedString("aa")
-    var camelCase = camelCase("saveChangesInTheEditor")
+    println(superReducedString("aa"))
+    println(camelCase("saveChangesInTheEditor"))
+    println(caesarCipher("There's-a-starman-waiting-in-the-sky", 3))
 }
 
 //return the count of letters that needs to be removed to make an anagram
@@ -84,4 +85,36 @@ fun camelCase(s: String): Int {
         }
     }
     return letterCount
+}
+
+/*
+   Caesar shift, is one of the simplest and most widely known encryption techniques.
+   t is a type of substitution cipher in which each letter in the plaintext is replaced by a letter
+   some fixed number of positions down the alphabet. For example, with a left shift of 3,
+   D would be replaced by A, E would become B, and so on.
+ */
+@OptIn(ExperimentalStdlibApi::class)
+fun caesarCipher(s: String, k: Int): String {
+    val letterArray = arrayOf("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z")
+    var newStringPwd = ""
+
+    s.forEach {
+        if (it.isLetter()) {
+            letterArray.forEachIndexed { i, c ->
+                if (c.equals(it.uppercase())) {
+                    var letterArrayIndice = i + k
+                    if ((i + k) >= letterArray.size) {
+                        letterArrayIndice = Math.abs(letterArray.size - i - k)
+                    }
+                    newStringPwd += (if (it.isUpperCase()) letterArray.get(letterArrayIndice)
+                        .toString() else letterArray.get(letterArrayIndice).toString()
+                        .lowercase())
+                    return@forEach
+                }
+            }
+        } else {
+            newStringPwd += it
+        }
+    }
+    return newStringPwd
 }
